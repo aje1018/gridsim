@@ -5,27 +5,40 @@
     android:orientation="vertical" >
 
     <TextView
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="24dp"
-        android:text="Milestone I" />
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="20sp"/>
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnWidth="1dp"
+        android:horizontalSpacing="1dp"
+        android:numColumns="16"
+        android:verticalSpacing="1dp" />
+
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/buttonLeft"
-            android:id="@+id/buttonLeft"/>
+    <Button
+        android:id="@+id/buttonLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/buttonLeft" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/buttonRight"
-            android:id="@+id/buttonRight"/>
+    <Button
+        android:id="@+id/buttonRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/buttonRight" />
     </LinearLayout>
 
 </LinearLayout>
