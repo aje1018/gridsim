@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     //private Button but1;
     //private Button but2;
     //private int[][] data = new int[16][16];
-    private SimGridView simGrid = new SimGridView(this);
+    private final SimGridView simGrid = new SimGridView(this);
     private static final String TAG = "gridView";
 
     static final String STATE_DATA = "curCell";
@@ -44,10 +44,6 @@ public class MainActivity extends AppCompatActivity {
             // Probably initialize members with default values for a new instance
         }
 
-        // create new adapter
-        /*GridAdapter ga = new GridAdapter(this);
-        gridView.setAdapter(ga);*/
-
         int[][] array = new int[16][16];
         // Milestone I code unused for this project
 
@@ -69,18 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,
                         R.string.popup2,
                         Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
-        // Some code used from https://stackoverflow.com/questions/20191914/how-to-add-gridview-setonitemclicklistener
-        /*gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                SimulationGrid simGrid = new SimulationGrid();
-                cell = simGrid.gc[position/16][position%16].getCellInfo();
-                tv1.setText(cell);
-                // Code from https://developer.android.com/studio/debug/am-logcat
-                Log.d(TAG, "" + position);
             }
         });*/
 

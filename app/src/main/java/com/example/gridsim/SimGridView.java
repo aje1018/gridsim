@@ -20,12 +20,12 @@ import Model.SimulationGrid;
 public class SimGridView {
     private static final String TAG = "gridView";
 
-    private Context mcontext;
+    private final Context mcontext;
     public SimulationGrid simGrid;
-    private TextView tview;
+    //private TextView tview;
     private GridView gview;
-    private GridAdapter gridAdapter;
     private String cell;
+
     public SimGridView(Context context) {
         mcontext = context;
         simGrid = new SimulationGrid();
@@ -36,7 +36,9 @@ public class SimGridView {
         // hook up to the other parts, ideally should be called from
         // the Activity's onStart method rather than from the constructor,
         // for use with EventBus later on
-        this.tview = tview;
+        GridAdapter gridAdapter;
+
+        //this.tview = tview;
         this.gview = gview;
         gridAdapter = new GridAdapter(mcontext, simGrid);
         gview.setAdapter(gridAdapter);
