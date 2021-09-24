@@ -3,8 +3,6 @@ package com.example.gridsim;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -15,18 +13,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.chromium.base.Log;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import Model.SimulationGrid;
 
 public class MainActivity extends AppCompatActivity {
 
     //private Button but1;
     //private Button but2;
     //private int[][] data = new int[16][16];
+    private SimGridView simGrid = new SimGridView(this);
     private static final String TAG = "gridView";
 
     static final String STATE_DATA = "curCell";
@@ -38,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView tv1 = (TextView)findViewById(R.id.textView1);
+        GridView gridView = (GridView)findViewById(R.id.gridview);
+        simGrid.attach(tv1, gridView);
+
         if (savedInstanceState != null) {
             // Restore value of members from saved state
             cell = savedInstanceState.getString(STATE_DATA);
@@ -46,10 +44,9 @@ public class MainActivity extends AppCompatActivity {
             // Probably initialize members with default values for a new instance
         }
 
-        GridView gridview = (GridView) findViewById(R.id.gridview);
         // create new adapter
-        GridAdapter ga = new GridAdapter(this);
-        gridview.setAdapter(ga);
+        /*GridAdapter ga = new GridAdapter(this);
+        gridView.setAdapter(ga);*/
 
         int[][] array = new int[16][16];
         // Milestone I code unused for this project
@@ -76,20 +73,16 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
         // Some code used from https://stackoverflow.com/questions/20191914/how-to-add-gridview-setonitemclicklistener
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if(array[position/16][position%16] == 0) {
-                    // Save gamestate
-                    cell = "Zero value at " + position;
-                } else {
-                    cell = "Nonzero value at " + position;
-                }
+                SimulationGrid simGrid = new SimulationGrid();
+                cell = simGrid.gc[position/16][position%16].getCellInfo();
                 tv1.setText(cell);
                 // Code from https://developer.android.com/studio/debug/am-logcat
                 Log.d(TAG, "" + position);
             }
-        });
+        });*/
 
         // Code from https://developer.android.com/training/volley/requestqueue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -101,11 +94,8 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        SimulationGrid simGrid = new SimulationGrid();
                         try {
                             simGrid.setUsingJSON(response.getJSONArray("grid"));
-                            ga.setData(array);
-                            gridview.invalidateViews();
                         } catch (JSONException e){
                             System.out.println("oops");
                         }

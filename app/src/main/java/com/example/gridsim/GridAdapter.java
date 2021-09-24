@@ -11,12 +11,15 @@ import android.widget.ImageView;
 
 import org.json.JSONArray;
 
+import Model.SimulationGrid;
+
 public class GridAdapter extends BaseAdapter {
     private Context context;
     private int[][] data = new int[16][16];
-
-    public GridAdapter(Context c) {
+    private SimulationGrid simGrid;
+    public GridAdapter(Context c, SimulationGrid simGrid) {
         context = c;
+        this.simGrid = simGrid;
     }
 
     public int getCount() {
@@ -47,13 +50,13 @@ public class GridAdapter extends BaseAdapter {
         {
             imageView = (ImageView) convertView;
         }
-        // if data[position] == x non zero
-            //imageView.setImageResource(R.mipmap.image1);
+        /*if data[position] == x non zero
+            imageView.setImageResource(R.mipmap.image1);
         if (data[position/16][position%16] != 0) {
             imageView.setImageResource(R.mipmap.image1);
         } else {
             imageView.setImageResource(R.mipmap.image2);
-        }
+        }*/
         return imageView;
     }
 
