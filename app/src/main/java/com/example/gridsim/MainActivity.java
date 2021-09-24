@@ -2,32 +2,31 @@ package com.example.gridsim;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DownloadManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.chromium.base.Log;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import Model.SimulationGrid;
 
 public class MainActivity extends AppCompatActivity {
 
     //private Button but1;
     //private Button but2;
-    private int[][] data = new int[16][16];
+    //private int[][] data = new int[16][16];
     private static final String TAG = "gridView";
 
     static final String STATE_DATA = "curCell";
@@ -43,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
             // Restore value of members from saved state
             cell = savedInstanceState.getString(STATE_DATA);
             tv1.setText(cell);
-            //Toast.makeText(MainActivity.this, cell, Toast.LENGTH_SHORT).show();
         } else {
             // Probably initialize members with default values for a new instance
         }
@@ -53,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         GridAdapter ga = new GridAdapter(this);
         gridview.setAdapter(ga);
 
+        int[][] array = new int[16][16];
         // Milestone I code unused for this project
 
         /*but1 = (Button) findViewById(R.id.buttonLeft);
@@ -80,12 +79,10 @@ public class MainActivity extends AppCompatActivity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if(data[position/16][position%16] == 0) {
-                    //Toast.makeText(MainActivity.this, "Zero value at " + position, Toast.LENGTH_SHORT).show();
+                if(array[position/16][position%16] == 0) {
                     // Save gamestate
                     cell = "Zero value at " + position;
                 } else {
-                    //Toast.makeText(MainActivity.this, "Nonzero value at " + position, Toast.LENGTH_SHORT).show();
                     cell = "Nonzero value at " + position;
                 }
                 tv1.setText(cell);
@@ -104,22 +101,13 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONObject response) {
+                        SimulationGrid simGrid = new SimulationGrid();
                         try {
-                            int[][] array = new int[16][16];
-                            // Grab 2d JSON Array via tag (grid)
-                            JSONArray twoD = response.getJSONArray("grid");
-                            for (int i = 0; i < 16; i++) {
-                                // Grab 1d JSON Array via index (0-15)
-                                JSONArray oneD = twoD.getJSONArray(i);
-                                for(int j = 0; j < 16; j++) {
-                                    array[i][j] = oneD.getInt(j);
-                                }
-                            }
-                            data = array;
+                            simGrid.setUsingJSON(response.getJSONArray("grid"));
                             ga.setData(array);
                             gridview.invalidateViews();
-                        } catch (Exception e) {
-                            System.out.println("Oops");
+                        } catch (JSONException e){
+                            System.out.println("oops");
                         }
                     }
                 }, new Response.ErrorListener() {
