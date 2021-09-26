@@ -15,7 +15,7 @@ public class GridCellFactory {
             return new Plant(val, position);
         } else if (val > 4000 && val < 1000000) {
             // reserved
-            return new GridCell("empty", R.mipmap.blank, position);
+            return new GridCell("reserved", R.mipmap.blank, position);
         } else if ( (val >= 1000000 && val < 2000000) || (val >= 2000000 && val < 3000000) || (val >= 10000000 && val < 20000000)) {
             // gardener items
             return new GardenerItem(val, position);

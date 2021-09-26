@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     //private Button but1;
     //private Button but2;
-    //private int[][] data = new int[16][16];
     private final SimGridView simGrid = new SimGridView(this);
     private static final String TAG = "gridView";
 
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             // Restore value of members from saved state
             cell = savedInstanceState.getString(STATE_DATA);
+            simGrid.setString(cell);
             tv1.setText(cell);
         } else {
             // Probably initialize members with default values for a new instance
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
+        cell = simGrid.getString();
         savedInstanceState.putString(STATE_DATA, cell);
 
         super.onSaveInstanceState(savedInstanceState);

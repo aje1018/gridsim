@@ -26,6 +26,13 @@ public class SimGridView {
         simGrid = new SimulationGrid();
     }
 
+    public String getString() {
+        return cell;
+    }
+    public void setString(String str) {
+        cell = str;
+    }
+
     public void attach(TextView tview, GridView gview) {
         // tells SimGridView what TextView and GridView to
         // hook up to the other parts, ideally should be called from
