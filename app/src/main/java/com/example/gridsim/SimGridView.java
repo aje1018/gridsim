@@ -7,11 +7,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.gridsim.GridAdapter;
-import com.example.gridsim.R;
-
 import org.json.JSONArray;
 
 import Model.GridCell;
@@ -39,11 +34,10 @@ public class SimGridView {
         GridAdapter gridAdapter;
 
         //this.tview = tview;
-        this.gview = gview;
         gridAdapter = new GridAdapter(mcontext, simGrid);
         gview.setAdapter(gridAdapter);
 
-
+        this.gview = gview;
         gview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {

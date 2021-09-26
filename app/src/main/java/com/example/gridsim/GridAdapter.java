@@ -9,8 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import org.json.JSONArray;
-
 import Model.SimulationGrid;
 
 public class GridAdapter extends BaseAdapter {
@@ -57,10 +55,11 @@ public class GridAdapter extends BaseAdapter {
         } else {
             imageView.setImageResource(R.mipmap.image2);
         }*/
-        if (simGrid.gc[position/16][position%16] == null) {
+
+        if (simGrid.getCell(position) == null) {
             imageView.setImageResource(R.mipmap.blank);
         } else {
-            imageView.setImageResource(simGrid.gc[position / 16][position % 16].getResourceID());
+            imageView.setImageResource(simGrid.getCell(position).getResourceID());
         }
         return imageView;
     }
