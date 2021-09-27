@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
             // Probably initialize members with default values for a new instance
         }
 
-        int[][] array = new int[16][16];
         // Milestone I code unused for this project
 
         /*but1 = (Button) findViewById(R.id.buttonLeft);
