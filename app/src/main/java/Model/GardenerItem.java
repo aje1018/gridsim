@@ -38,7 +38,7 @@ public class GardenerItem extends GridCell {
     public String getCellInfo() {
         // TODO: returns a string describing other info about the object (Such as location)
         String str = "Selected " + type + "\n";
-        str = str + "Location: (" + position/16 + ", " + position%16 + ") \n";
+        str = str + "Location: (" + position/16 + ", " + position%16 + ")\n";
         str = str + "Gardener ID: " + this.GID;
         return str;
     }
