@@ -10,6 +10,7 @@ public class Plant extends GridCell {
     private final int mushroom = R.mipmap.mushroom;
     private final int sunflower = R.mipmap.sunflower;
 
+
     public Plant(int val, int position) {
         this.position = position;
         if (val == 1000) {

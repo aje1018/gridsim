@@ -2,6 +2,4 @@
     <string name="app_name">GridSim</string>
     <string name="buttonLeft">Good</string>
     <string name="buttonRight">Bad</string>
-    <string name="popup1">You clicked the left button :-)</string>
-    <string name="popup2">You clicked the right button :-(</string>
 </resources>

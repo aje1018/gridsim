@@ -13,7 +13,7 @@ public class GridCellFactoryTest {
 
     @Before
     public void makeGCF() {
-        gcf = new GridCellFactory();
+        gcf = GridCellFactory.getInstance();
     }
     @Test
     public void makeCell_sentZeroValue_returnsEmptyGC() {

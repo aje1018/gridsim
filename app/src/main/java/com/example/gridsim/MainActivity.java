@@ -2,24 +2,17 @@ package com.example.gridsim;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class MainActivity extends AppCompatActivity {
+    public static final String EXTRA_MESSAGE = "com.example.gridsim.MESSAGE";
 
-    //private Button but1;
-    //private Button but2;
     private final SimGridView simGrid = new SimGridView(this);
     private static final String TAG = "gridView";
 
@@ -31,8 +24,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button but1 = (Button) findViewById(R.id.buttonLeft);
+        Button but2 = (Button) findViewById(R.id.buttonRight);
+
         TextView tv1 = (TextView)findViewById(R.id.textView1);
         GridView gridView = (GridView)findViewById(R.id.gridview);
+
         simGrid.attach(tv1, gridView);
 
         if (savedInstanceState != null) {
@@ -43,55 +40,24 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // Probably initialize members with default values for a new instance
         }
-
-        // Milestone I code unused for this project
-
-        /*but1 = (Button) findViewById(R.id.buttonLeft);
-        but2 = (Button) findViewById(R.id.buttonRight);
-
         but1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,
-                        R.string.popup1,
-                        Toast.LENGTH_SHORT).show();
+                // left button, log.d history?
+                newActivity();
             }
         });
 
         but2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,
-                        R.string.popup2,
-                        Toast.LENGTH_SHORT).show();
+                // right button, pause grid updating but continue updating history
+                simGrid.togglePause();
             }
-        });*/
+        });
 
-        // Code from https://developer.android.com/training/volley/requestqueue
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        // Code from https://developer.android.com/training/volley/request
-        String url = "http://stman1.cs.unh.edu:6191/games";
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            simGrid.setUsingJSON(response.getJSONArray("grid"));
-                        } catch (JSONException e){
-                            System.out.println("oops");
-                        }
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-
-                    }
-                });
-        requestQueue.add(jsonObjectRequest);
+        Poller poller = Poller.getInstance();
+        poller.start(this);
     }
 
     @Override
@@ -100,5 +66,14 @@ public class MainActivity extends AppCompatActivity {
         savedInstanceState.putString(STATE_DATA, cell);
 
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    // new activity code help from https://developer.android.com/training/basics/firstapp/starting-activity
+    public void newActivity() {
+        Intent intent = new Intent(this, NewActivity.class);
+        String history = simGrid.printHistory();
+
+        intent.putExtra(EXTRA_MESSAGE, history);
+        startActivity(intent);
     }
 }

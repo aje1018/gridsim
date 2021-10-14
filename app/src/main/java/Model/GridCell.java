@@ -8,6 +8,7 @@ public class GridCell {
     public GridCell() {
 
     }
+
     public GridCell(String type, int resourceID, int position) {
         this.type = type;
         this.resourceID = resourceID;

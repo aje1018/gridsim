@@ -13,7 +13,7 @@ import Model.SimulationGrid;
 
 public class GridAdapter extends BaseAdapter {
     private Context context;
-    //private int[][] data = new int[16][16];
+
     private SimulationGrid simGrid;
     public GridAdapter(Context c, SimulationGrid simGrid) {
         context = c;
@@ -31,9 +31,7 @@ public class GridAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return 0;
     }
-    /*public void setData(int[][] j) {
-        data = j;
-    }*/
+
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
@@ -48,14 +46,6 @@ public class GridAdapter extends BaseAdapter {
         {
             imageView = (ImageView) convertView;
         }
-        /*if data[position] == x non zero
-            imageView.setImageResource(R.mipmap.image1);
-        if (data[position/16][position%16] != 0) {
-            imageView.setImageResource(R.mipmap.image1);
-        } else {
-            imageView.setImageResource(R.mipmap.image2);
-        }*/
-
         if (simGrid.getCell(position) == null) {
             imageView.setImageResource(R.mipmap.blank);
         } else {
