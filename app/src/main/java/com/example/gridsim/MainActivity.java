@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tv1 = (TextView)findViewById(R.id.textView1);
         GridView gridView = (GridView)findViewById(R.id.gridview);
 
-        simGrid.attach(tv1, gridView);
+        simGrid.attach(tv1, gridView, null); // send null eventbus
 
         if (savedInstanceState != null) {
             // Restore value of members from saved state
@@ -75,5 +75,13 @@ public class MainActivity extends AppCompatActivity {
 
         intent.putExtra(EXTRA_MESSAGE, history);
         startActivity(intent);
+    }
+
+    // call detach to detach from EventBus?
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        simGrid.detach(null);
     }
 }

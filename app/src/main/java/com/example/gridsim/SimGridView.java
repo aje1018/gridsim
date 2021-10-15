@@ -41,12 +41,16 @@ public class SimGridView {
         cell = str;
     }
 
-    public void attach(TextView tview, GridView gview) {
+    public void attach(TextView tview, GridView gview, EventBus eventBus) {
         // tells SimGridView what TextView and GridView to
         // hook up to the other parts, ideally should be called from
         // the Activity's onStart method rather than from the constructor,
         // for use with EventBus later on
-        EventBus.getDefault().register(this);
+        if (eventBus == null) {
+            EventBus.getDefault().register(this);
+        } else {
+            eventBus.register(this);
+        }
 
         GridAdapter gridAdapter;
 
@@ -72,9 +76,13 @@ public class SimGridView {
         });
     }
 
-    public void detach() {
+    public void detach(EventBus eventBus) {
         // unsubscribe
-        EventBus.getDefault().unregister(this);
+        if(eventBus == null) {
+            EventBus.getDefault().unregister(this);
+        } else {
+            eventBus.unregister(this);
+        }
     }
     // all eventbus code with help of https://greenrobot.org/eventbus/documentation/how-to-get-started/
     @Subscribe
