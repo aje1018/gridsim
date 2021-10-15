@@ -5,18 +5,13 @@ import org.json.JSONArray;
 public class SimulationGrid {
     private boolean isPaused;
 
-    private GridCell[][] pauseGC = new GridCell[16][16];
     private GridCell[][] gc = new GridCell[16][16];
     public SimulationGrid() {
         isPaused = false;
     }
     public GridCell getCell(int index) {
         // TODO: returns the GridCell at a given linear index
-        if(!isPaused) {
-            return gc[index / 16][index % 16];
-        } else {
-            return pauseGC[index / 16][index % 16];
-        }
+        return gc[index / 16][index % 16];
     }
 
     public int getNumRows() {
@@ -61,7 +56,7 @@ public class SimulationGrid {
     }
 
     public void togglePause() {
-        pauseGC = gc; // pass by reference... :(
+        // pauseGC = gc; // pass by reference... :(
         isPaused = !isPaused;
     }
 }

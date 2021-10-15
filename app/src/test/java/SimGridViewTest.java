@@ -1,11 +1,13 @@
-package com.example.gridsim;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import android.content.Context;
 import android.widget.GridView;
 import android.widget.TextView;
+
+import com.example.gridsim.GridAdapter;
+import com.example.gridsim.MessageEvent;
+import com.example.gridsim.SimGridView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -15,8 +17,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import Model.SimulationGrid;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SimGridViewTest {
@@ -25,9 +30,12 @@ public class SimGridViewTest {
     private JSONObject jsonObject;
     private Context mContext;
     private SimGridView simGridView;
-    @Mock GridView gview;
+    private SimulationGrid simGrid;
+    @Mock
+    GridView gview;
     @Mock TextView tview;
     @Mock EventBus eventBus;
+    @Mock GridAdapter gridAdapter;
 
     @Before
     public void init() throws JSONException {
@@ -36,12 +44,17 @@ public class SimGridViewTest {
         tview = new TextView(mContext);
         eventBus = new EventBus();
         jsonObject = new JSONObject(basicGrid);
+        gridAdapter = new GridAdapter(mContext, simGrid);
     }
 
     @Test
     public void test() {
         // inject an EventBus (?)
-        simGridView.attach(tview, gview, eventBus);
+
+        doThrow(new RuntimeException("Stub!")).when(gview).setAdapter(gridAdapter);
+
+        simGridView.attach(tview, gview, eventBus, gridAdapter);
+
 
         verify(eventBus).post(new MessageEvent(jsonObject));
     }

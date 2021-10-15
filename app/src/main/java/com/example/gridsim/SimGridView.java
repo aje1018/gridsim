@@ -18,6 +18,8 @@ import Model.GridCell;
 import Model.SimulationGrid;
 
 public class SimGridView {
+    private String[][] cellInfo = new String[16][16];
+
     private static final String TAG = "gridView";
 
     private boolean isPaused;
@@ -41,7 +43,7 @@ public class SimGridView {
         cell = str;
     }
 
-    public void attach(TextView tview, GridView gview, EventBus eventBus) {
+    public void attach(TextView tview, GridView gview, EventBus eventBus, GridAdapter ga) {
         // tells SimGridView what TextView and GridView to
         // hook up to the other parts, ideally should be called from
         // the Activity's onStart method rather than from the constructor,
@@ -52,23 +54,31 @@ public class SimGridView {
             eventBus.register(this);
         }
 
-        GridAdapter gridAdapter;
 
         this.tview = tview;
-        gridAdapter = new GridAdapter(mcontext, simGrid);
-        gview.setAdapter(gridAdapter);
+        if(ga == null) {
+            GridAdapter gridAdapter = new GridAdapter(mcontext, simGrid);
+            gview.setAdapter(gridAdapter);
+        } else {
+            gview.setAdapter(ga);
+        }
 
         this.gview = gview;
         gview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
-                if (simGrid == null) {
+                if (simGrid.getCell(position) == null) {
                     tview.setText("NULL value");
                 } else {
                     clickPos = position;
                     GridCell gc = simGrid.getCell(position);
                     cell = gc.getCellInfo();
-                    tview.setText(cell);
+                    if(!isPaused) {
+                        tview.setText(cell);
+                        updateCells();
+                    } else {
+                        tview.setText(cellInfo[position / 16][position % 16]);
+                    }
 
                     Log.d(TAG, "" + position);
                 }
@@ -117,6 +127,15 @@ public class SimGridView {
     public void togglePause() {
         isPaused = !isPaused;
         simGrid.togglePause();
+    }
+
+
+    public void updateCells() {
+        for (int i = 0; i < 16; i++) {
+            for (int j = 0; j < 16; j++) {
+                cellInfo[i][j] = simGrid.getCell((16 * i) + j).getCellInfo();
+            }
+        }
     }
 }
 

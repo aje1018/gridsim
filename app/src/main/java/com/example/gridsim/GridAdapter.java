@@ -46,10 +46,12 @@ public class GridAdapter extends BaseAdapter {
         {
             imageView = (ImageView) convertView;
         }
-        if (simGrid.getCell(position) == null) {
-            imageView.setImageResource(R.mipmap.blank);
-        } else {
-            imageView.setImageResource(simGrid.getCell(position).getResourceID());
+        if(!simGrid.getPauseValue()) {
+            if (simGrid.getCell(position) == null) {
+                imageView.setImageResource(R.mipmap.blank);
+            } else {
+                imageView.setImageResource(simGrid.getCell(position).getResourceID());
+            }
         }
         return imageView;
     }
